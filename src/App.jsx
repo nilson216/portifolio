@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Download, Github, Linkedin, Mail, Sparkles } from 'lucide-react';
-import { hero, highlights, projects, skills, timeline, socials } from './data';
+import { hero, highlights, projects, skills, timeline, socials, about } from './data';
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -123,6 +123,34 @@ export default function App() {
               </div>
             </motion.div>
           </motion.div>
+        </motion.section>
+
+        {/* Sobre mim */}
+        <motion.section className="space-y-6" {...inView(0.05)}>
+          <div>
+            <p className="text-sm uppercase tracking-[0.2em] text-primary">Trajetória</p>
+            <h3 className="text-3xl font-semibold text-slate-50">{about.title}</h3>
+          </div>
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-10">
+            <motion.div {...fadeUp} className="space-y-4">
+              <p className="text-base text-slate-300 leading-relaxed">{about.description}</p>
+            </motion.div>
+            <motion.div {...fadeUp} transition={{ delay: 0.1, duration: 0.6 }} className="space-y-3">
+              {about.highlights.map((highlight, idx) => (
+                <motion.div
+                  key={highlight}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 * idx, duration: 0.4 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  className="flex gap-3 items-start"
+                >
+                  <div className="h-1.5 w-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                  <p className="text-sm text-slate-300">{highlight}</p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </motion.section>
 
         {/* Projetos */}

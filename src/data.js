@@ -8,6 +8,19 @@ export const hero = {
   avatar: '/me.jpg', // coloque sua foto em public/me.jpg
 };
 
+export const about = {
+  title: 'Sobre mim',
+  description:
+    'Sou desenvolvedor web júnior apaixonado por criar interfaces limpas, intuitivas e bem otimizadas. Tenho experiência com as principais tecnologias do ecossistema JavaScript e foco em entregar projetos que combinam design cuidadoso com funcionalidade robusta.',
+  highlights: [
+    'Experiência em desenvolvimento full-stack com React, Node.js e PostgreSQL',
+    'Foco em UX/UI e performance de aplicações web',
+    'Animações fluidas e microinterações que melhoram a experiência do usuário',
+    'Versionamento com Git e colaboração em equipe',
+    'Aprendizado contínuo e disposição para novos desafios',
+  ],
+};
+
 export const highlights = [
   'Aplicações web com React, Vite e Tailwind',
   'Experiência do usuário focada em clareza e dados',
