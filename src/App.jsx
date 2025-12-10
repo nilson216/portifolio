@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Download, Github, Linkedin, Mail, Sparkles } from 'lucide-react';
 import * as SiIcons from 'react-icons/si';
+import { useRef } from 'react';
 import { hero, highlights, projects, technologies, timeline, socials, about } from './data';
 
 const fadeUp = {
@@ -15,6 +16,41 @@ const inView = (delay = 0) => ({
 });
 
 export default function App() {
+  const scrollRef = useRef(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+
+  const handleMouseDown = (e) => {
+    isDragging.current = true;
+    startX.current = e.pageX - scrollRef.current.offsetLeft;
+    scrollLeft.current = scrollRef.current.scrollLeft;
+    scrollRef.current.style.cursor = 'grabbing';
+    scrollRef.current.style.userSelect = 'none';
+  };
+
+  const handleMouseLeave = () => {
+    isDragging.current = false;
+    if (scrollRef.current) {
+      scrollRef.current.style.cursor = 'grab';
+    }
+  };
+
+  const handleMouseUp = () => {
+    isDragging.current = false;
+    if (scrollRef.current) {
+      scrollRef.current.style.cursor = 'grab';
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX.current) * 2;
+    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 relative overflow-hidden">
       <div className="absolute inset-0 bg-glow opacity-70 pointer-events-none" />
@@ -206,10 +242,16 @@ export default function App() {
           
           <div className="relative">
             <div 
+              ref={scrollRef}
+              onMouseDown={handleMouseDown}
+              onMouseLeave={handleMouseLeave}
+              onMouseUp={handleMouseUp}
+              onMouseMove={handleMouseMove}
               className="overflow-x-scroll scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent hover:scrollbar-thumb-slate-600 pb-4"
               style={{ 
-                scrollBehavior: 'smooth',
-                WebkitOverflowScrolling: 'touch'
+                scrollBehavior: isDragging.current ? 'auto' : 'smooth',
+                WebkitOverflowScrolling: 'touch',
+                cursor: 'grab'
               }}
             >
               <div 
@@ -226,15 +268,15 @@ export default function App() {
                       transition={{ delay: 0.03 * (idx % technologies.length), duration: 0.4 }}
                       viewport={{ once: true, margin: '-80px' }}
                       whileHover={{ y: -8, scale: 1.05 }}
-                      className="flex-shrink-0 w-32 h-32 rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-glass flex flex-col items-center justify-center gap-3 hover:border-primary/60 transition cursor-pointer group"
+                      className="flex-shrink-0 w-32 h-32 rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-glass flex flex-col items-center justify-center gap-3 hover:border-primary/60 transition cursor-pointer group select-none"
                     >
                       {IconComponent && (
                         <IconComponent 
-                          className="text-5xl transition-colors" 
+                          className="text-5xl transition-colors pointer-events-none" 
                           style={{ color: tech.color }}
                         />
                       )}
-                      <span className="text-sm font-medium text-slate-200">{tech.name}</span>
+                      <span className="text-sm font-medium text-slate-200 pointer-events-none">{tech.name}</span>
                     </motion.div>
                   );
                 })}
