@@ -240,14 +240,14 @@ export default function App() {
             <p className="text-slate-400 mt-2">Utilizamos as ferramentas mais avançadas do mercado</p>
           </div>
           
-          <div className="relative">
+          <div className="relative py-4">
             <div 
               ref={scrollRef}
               onMouseDown={handleMouseDown}
               onMouseLeave={handleMouseLeave}
               onMouseUp={handleMouseUp}
               onMouseMove={handleMouseMove}
-              className="overflow-x-scroll scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent hover:scrollbar-thumb-slate-600 pb-4"
+              className="overflow-x-scroll overflow-y-visible scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent hover:scrollbar-thumb-slate-600 pb-4"
               style={{ 
                 scrollBehavior: isDragging.current ? 'auto' : 'smooth',
                 WebkitOverflowScrolling: 'touch',
@@ -255,7 +255,7 @@ export default function App() {
               }}
             >
               <div 
-                className="flex gap-6 px-4"
+                className="flex gap-6 px-4 py-2"
                 style={{ width: 'max-content' }}
               >
                 {[...technologies, ...technologies].map((tech, idx) => {
@@ -284,8 +284,8 @@ export default function App() {
             </div>
             
             {/* Gradient overlays for scroll hint */}
-            <div className="absolute top-0 left-0 bottom-4 w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
-            <div className="absolute top-0 right-0 bottom-4 w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute top-4 left-0 bottom-4 w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute top-4 right-0 bottom-4 w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
           </div>
           
           <p className="text-center text-sm text-slate-400">← Arraste para ver mais →</p>
