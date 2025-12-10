@@ -237,17 +237,17 @@ export default function App() {
           <div className="text-center">
             <p className="text-sm uppercase tracking-[0.2em] text-primary">Stack</p>
             <h3 className="text-3xl font-semibold text-slate-50">Tecnologias Modernas</h3>
-            <p className="text-slate-400 mt-2">Utilizamos as ferramentas mais avançadas do mercado</p>
+            <p className="text-slate-400 mt-2">Utilizando as ferramentas mais avançadas do mercado e se aperfeiçoando.</p>
           </div>
           
-          <div className="relative py-4">
+          <div className="relative py-8">
             <div 
               ref={scrollRef}
               onMouseDown={handleMouseDown}
               onMouseLeave={handleMouseLeave}
               onMouseUp={handleMouseUp}
               onMouseMove={handleMouseMove}
-              className="overflow-x-scroll overflow-y-visible scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent hover:scrollbar-thumb-slate-600 pb-4"
+              className="overflow-x-scroll scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent hover:scrollbar-thumb-slate-600 pb-4 pt-4"
               style={{ 
                 scrollBehavior: isDragging.current ? 'auto' : 'smooth',
                 WebkitOverflowScrolling: 'touch',
@@ -255,7 +255,7 @@ export default function App() {
               }}
             >
               <div 
-                className="flex gap-6 px-4 py-2"
+                className="flex gap-6 px-4"
                 style={{ width: 'max-content' }}
               >
                 {[...technologies, ...technologies].map((tech, idx) => {
@@ -268,15 +268,17 @@ export default function App() {
                       transition={{ delay: 0.03 * (idx % technologies.length), duration: 0.4 }}
                       viewport={{ once: true, margin: '-80px' }}
                       whileHover={{ y: -8, scale: 1.05 }}
-                      className="flex-shrink-0 w-32 h-32 rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-glass flex flex-col items-center justify-center gap-3 hover:border-primary/60 transition cursor-pointer group select-none"
+                      onMouseDown={(e) => e.stopPropagation()}
+                      className="flex-shrink-0 w-32 h-32 rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-glass flex flex-col items-center justify-center gap-3 hover:border-primary/60 transition select-none"
+                      style={{ cursor: 'inherit' }}
                     >
                       {IconComponent && (
                         <IconComponent 
-                          className="text-5xl transition-colors pointer-events-none" 
+                          className="text-5xl transition-colors" 
                           style={{ color: tech.color }}
                         />
                       )}
-                      <span className="text-sm font-medium text-slate-200 pointer-events-none">{tech.name}</span>
+                      <span className="text-sm font-medium text-slate-200">{tech.name}</span>
                     </motion.div>
                   );
                 })}
@@ -284,8 +286,8 @@ export default function App() {
             </div>
             
             {/* Gradient overlays for scroll hint */}
-            <div className="absolute top-4 left-0 bottom-4 w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
-            <div className="absolute top-4 right-0 bottom-4 w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute top-8 left-0 bottom-4 w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute top-8 right-0 bottom-4 w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
           </div>
           
           <p className="text-center text-sm text-slate-400">← Arraste para ver mais →</p>
