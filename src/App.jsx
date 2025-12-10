@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Download, Github, Linkedin, Mail, Sparkles } from 'lucide-react';
+import * as SiIcons from 'react-icons/si';
 import { hero, highlights, projects, technologies, timeline, socials, about } from './data';
 
 const fadeUp = {
@@ -196,7 +197,7 @@ export default function App() {
         </motion.section>
 
         {/* Tecnologias Modernas */}
-        <motion.section className="space-y-6 overflow-hidden" {...inView(0.05)}>
+        <motion.section className="space-y-6" {...inView(0.05)}>
           <div className="text-center">
             <p className="text-sm uppercase tracking-[0.2em] text-primary">Stack</p>
             <h3 className="text-3xl font-semibold text-slate-50">Tecnologias Modernas</h3>
@@ -204,31 +205,45 @@ export default function App() {
           </div>
           
           <div className="relative">
-            <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
-              <motion.div 
-                className="flex gap-6 py-6"
+            <div 
+              className="overflow-x-scroll scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent hover:scrollbar-thumb-slate-600 pb-4"
+              style={{ 
+                scrollBehavior: 'smooth',
+                WebkitOverflowScrolling: 'touch'
+              }}
+            >
+              <div 
+                className="flex gap-6 px-4"
                 style={{ width: 'max-content' }}
               >
-                {[...technologies, ...technologies].map((tech, idx) => (
-                  <motion.div
-                    key={`${tech.name}-${idx}`}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.03 * (idx % technologies.length), duration: 0.4 }}
-                    viewport={{ once: true, margin: '-80px' }}
-                    whileHover={{ y: -8, scale: 1.05 }}
-                    className="flex-shrink-0 w-32 h-32 rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-glass flex flex-col items-center justify-center gap-3 hover:border-primary/60 transition cursor-pointer"
-                  >
-                    <span className="text-4xl">{tech.icon}</span>
-                    <span className="text-sm font-medium text-slate-200">{tech.name}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
+                {[...technologies, ...technologies].map((tech, idx) => {
+                  const IconComponent = SiIcons[tech.icon];
+                  return (
+                    <motion.div
+                      key={`${tech.name}-${idx}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.03 * (idx % technologies.length), duration: 0.4 }}
+                      viewport={{ once: true, margin: '-80px' }}
+                      whileHover={{ y: -8, scale: 1.05 }}
+                      className="flex-shrink-0 w-32 h-32 rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-glass flex flex-col items-center justify-center gap-3 hover:border-primary/60 transition cursor-pointer group"
+                    >
+                      {IconComponent && (
+                        <IconComponent 
+                          className="text-5xl transition-colors" 
+                          style={{ color: tech.color }}
+                        />
+                      )}
+                      <span className="text-sm font-medium text-slate-200">{tech.name}</span>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
             
             {/* Gradient overlays for scroll hint */}
-            <div className="absolute top-0 left-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
-            <div className="absolute top-0 right-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute top-0 left-0 bottom-4 w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute top-0 right-0 bottom-4 w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
           </div>
           
           <p className="text-center text-sm text-slate-400">← Arraste para ver mais →</p>

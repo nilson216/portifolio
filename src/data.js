@@ -56,20 +56,20 @@ export const projects = [
 ];
 
 export const technologies = [
-  { name: 'JavaScript', icon: '🟨' },
-  { name: 'Node.js', icon: '🟢' },
-  { name: 'Tailwind', icon: '💨' },
-  { name: 'PostgreSQL', icon: '🐘' },
-  { name: 'MongoDB', icon: '🍃' },
-  { name: 'AWS', icon: '☁️' },
-  { name: 'Vercel', icon: '▲' },
-  { name: 'Figma', icon: '🎨' },
-  { name: 'Git', icon: '📦' },
-  { name: 'Docker', icon: '🐳' },
-  { name: 'GraphQL', icon: '⚡' },
-  { name: 'React', icon: '⚛️' },
-  { name: 'Next.js', icon: '◼️' },
-  { name: 'TypeScript', icon: '📘' },
+  { name: 'JavaScript', icon: 'SiJavascript', color: '#F7DF1E' },
+  { name: 'Node.js', icon: 'SiNodedotjs', color: '#339933' },
+  { name: 'React', icon: 'SiReact', color: '#61DAFB' },
+  { name: 'Next.js', icon: 'SiNextdotjs', color: '#000000' },
+  { name: 'TypeScript', icon: 'SiTypescript', color: '#3178C6' },
+  { name: 'Tailwind', icon: 'SiTailwindcss', color: '#06B6D4' },
+  { name: 'PostgreSQL', icon: 'SiPostgresql', color: '#4169E1' },
+  { name: 'MongoDB', icon: 'SiMongodb', color: '#47A248' },
+  { name: 'Git', icon: 'SiGit', color: '#F05032' },
+  { name: 'Docker', icon: 'SiDocker', color: '#2496ED' },
+  { name: 'Vercel', icon: 'SiVercel', color: '#000000' },
+  { name: 'Figma', icon: 'SiFigma', color: '#F24E1E' },
+  { name: 'GraphQL', icon: 'SiGraphql', color: '#E10098' },
+  { name: 'Express', icon: 'SiExpress', color: '#000000' },
 ];
 
 export const timeline = [
