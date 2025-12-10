@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Download, Github, Linkedin, Mail, Sparkles } from 'lucide-react';
-import { hero, highlights, projects, skills, timeline, socials, about } from './data';
+import { hero, highlights, projects, technologies, timeline, socials, about } from './data';
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -195,26 +195,43 @@ export default function App() {
           </div>
         </motion.section>
 
-        {/* Skills */}
-        <motion.section className="grid md:grid-cols-3 gap-5" {...inView(0.05)}>
-          {skills.map((section, idx) => (
-            <motion.div
-              key={section.title}
-              {...fadeUp}
-              transition={{ delay: 0.05 * idx }}
-              className="rounded-2xl border border-white/5 bg-white/5 p-5 shadow-glass"
-            >
-              <h4 className="text-xl font-semibold text-slate-50 mb-3">{section.title}</h4>
-              <ul className="space-y-2 text-slate-200">
-                {section.items.map((item) => (
-                  <li key={item} className="flex items-center gap-2 text-sm">
-                    <span className="h-2 w-2 rounded-full bg-primary/70" />
-                    {item}
-                  </li>
+        {/* Tecnologias Modernas */}
+        <motion.section className="space-y-6 overflow-hidden" {...inView(0.05)}>
+          <div className="text-center">
+            <p className="text-sm uppercase tracking-[0.2em] text-primary">Stack</p>
+            <h3 className="text-3xl font-semibold text-slate-50">Tecnologias Modernas</h3>
+            <p className="text-slate-400 mt-2">Utilizamos as ferramentas mais avançadas do mercado</p>
+          </div>
+          
+          <div className="relative">
+            <div className="overflow-x-auto scrollbar-hide -mx-4 px-4">
+              <motion.div 
+                className="flex gap-6 py-6"
+                style={{ width: 'max-content' }}
+              >
+                {[...technologies, ...technologies].map((tech, idx) => (
+                  <motion.div
+                    key={`${tech.name}-${idx}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.03 * (idx % technologies.length), duration: 0.4 }}
+                    viewport={{ once: true, margin: '-80px' }}
+                    whileHover={{ y: -8, scale: 1.05 }}
+                    className="flex-shrink-0 w-32 h-32 rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-glass flex flex-col items-center justify-center gap-3 hover:border-primary/60 transition cursor-pointer"
+                  >
+                    <span className="text-4xl">{tech.icon}</span>
+                    <span className="text-sm font-medium text-slate-200">{tech.name}</span>
+                  </motion.div>
                 ))}
-              </ul>
-            </motion.div>
-          ))}
+              </motion.div>
+            </div>
+            
+            {/* Gradient overlays for scroll hint */}
+            <div className="absolute top-0 left-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute top-0 right-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
+          </div>
+          
+          <p className="text-center text-sm text-slate-400">← Arraste para ver mais →</p>
         </motion.section>
 
         {/* Timeline */}

@@ -55,19 +55,21 @@ export const projects = [
   },
 ];
 
-export const skills = [
-  {
-    title: 'Web',
-    items: ['React', 'Vite', 'Next.js (básico)', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-  },
-  {
-    title: 'Backend',
-    items: ['Node.js', 'Express', 'REST', 'MongoDB', 'PostgreSQL (básico)'],
-  },
-  {
-    title: 'Ferramentas',
-    items: ['Git', 'GitHub', 'Figma', 'Vercel', 'Linux'],
-  },
+export const technologies = [
+  { name: 'JavaScript', icon: '🟨' },
+  { name: 'Node.js', icon: '🟢' },
+  { name: 'Tailwind', icon: '💨' },
+  { name: 'PostgreSQL', icon: '🐘' },
+  { name: 'MongoDB', icon: '🍃' },
+  { name: 'AWS', icon: '☁️' },
+  { name: 'Vercel', icon: '▲' },
+  { name: 'Figma', icon: '🎨' },
+  { name: 'Git', icon: '📦' },
+  { name: 'Docker', icon: '🐳' },
+  { name: 'GraphQL', icon: '⚡' },
+  { name: 'React', icon: '⚛️' },
+  { name: 'Next.js', icon: '◼️' },
+  { name: 'TypeScript', icon: '📘' },
 ];
 
 export const timeline = [
