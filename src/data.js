@@ -13,8 +13,6 @@ export const about = {
   description:
     'Sou desenvolvedor web júnior apaixonado por criar interfaces limpas, intuitivas e bem otimizadas. Tenho experiência com as principais tecnologias do ecossistema JavaScript e foco em entregar projetos que combinam design cuidadoso com funcionalidade robusta.',
   highlights: [
-    'Experiência em desenvolvimento full-stack com React, Node.js e PostgreSQL',
-    'Foco em UX/UI e performance de aplicações web',
     'Animações fluidas e microinterações que melhoram a experiência do usuário',
     'Versionamento com Git e colaboração em equipe',
     'Aprendizado contínuo e disposição para novos desafios',

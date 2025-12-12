@@ -320,7 +320,7 @@ export default function App() {
           <p className="text-sm uppercase tracking-[0.2em] text-primary">Vamos criar algo</p>
           <h3 className="text-3xl font-semibold text-slate-50">Pronto para colaborar?</h3>
           <p className="text-slate-200 max-w-2xl mx-auto">
-            Se você busca alguém para desenvolver aplicações web modernas com foco em performance e experiência, vamos conversar!
+            Se você busca alguém para desenvolver aplicações web modernas com foco em performance, vamos conversar!
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <motion.a
