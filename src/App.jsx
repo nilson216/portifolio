@@ -1,19 +1,46 @@
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Download, Github, Linkedin, Mail, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Download, Github, Linkedin, Mail } from 'lucide-react';
 import * as SiIcons from 'react-icons/si';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { hero, highlights, projects, technologies, timeline, socials, about } from './data';
 
 const fadeUp = {
-  initial: { opacity: 0, y: 30 },
+  initial: { opacity: 0, y: 24 },
   animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 };
 
 const inView = (delay = 0) => ({
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut', delay } },
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut', delay } },
   viewport: { once: true, margin: '-80px' },
 });
+
+// Cabeçalho de "janela de editor" reutilizável — o elemento assinatura do site
+function WindowFrame({ filename, children, className = '' }) {
+  return (
+    <div className={`rounded-md border border-[var(--border)] bg-[var(--surface)] overflow-hidden ${className}`}>
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-[var(--border)] bg-black/20">
+        <div className="window-dots flex gap-1.5">
+          <span className="bg-[#ff5f57]" />
+          <span className="bg-[#febc2e]" />
+          <span className="bg-[#28c840]" />
+        </div>
+        {filename && (
+          <span className="font-mono text-xs text-[var(--muted)] ml-2">{filename}</span>
+        )}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function SectionEyebrow({ children }) {
+  return (
+    <p className="font-mono text-xs text-[var(--accent)] mb-2">
+      <span className="text-[var(--muted)]">// </span>{children}
+    </p>
+  );
+}
 
 export default function App() {
   const scrollRef = useRef(null);
@@ -21,28 +48,33 @@ export default function App() {
   const startX = useRef(0);
   const scrollLeft = useRef(0);
 
+  // efeito de digitação no cargo, uma vez, ao montar
+  const [typed, setTyped] = useState('');
+  useEffect(() => {
+    let i = 0;
+    const full = hero.role;
+    const id = setInterval(() => {
+      i += 1;
+      setTyped(full.slice(0, i));
+      if (i >= full.length) clearInterval(id);
+    }, 35);
+    return () => clearInterval(id);
+  }, []);
+
   const handleMouseDown = (e) => {
     isDragging.current = true;
     startX.current = e.pageX - scrollRef.current.offsetLeft;
     scrollLeft.current = scrollRef.current.scrollLeft;
     scrollRef.current.style.cursor = 'grabbing';
-    scrollRef.current.style.userSelect = 'none';
   };
-
   const handleMouseLeave = () => {
     isDragging.current = false;
-    if (scrollRef.current) {
-      scrollRef.current.style.cursor = 'grab';
-    }
+    if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
   };
-
   const handleMouseUp = () => {
     isDragging.current = false;
-    if (scrollRef.current) {
-      scrollRef.current.style.cursor = 'grab';
-    }
+    if (scrollRef.current) scrollRef.current.style.cursor = 'grab';
   };
-
   const handleMouseMove = (e) => {
     if (!isDragging.current) return;
     e.preventDefault();
@@ -51,153 +83,141 @@ export default function App() {
     scrollRef.current.scrollLeft = scrollLeft.current - walk;
   };
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 relative overflow-hidden">
-      <div className="absolute inset-0 bg-glow opacity-70 pointer-events-none" />
-      <div className="absolute inset-0 bg-grid-dark bg-[size:24px_24px] opacity-40 pointer-events-none" />
+  const navTabs = [
+    { label: 'about.md', href: '#sobre' },
+    { label: 'projects.jsx', href: '#projetos' },
+    { label: 'stack.json', href: '#stack' },
+  ];
 
-      <header className="max-w-6xl mx-auto px-4 pt-10 pb-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-11 w-11 rounded-2xl bg-primary/20 border border-primary/40 flex items-center justify-center text-primary">
-            <Sparkles size={22} />
-          </div>
-          <div>
-            <p className="text-sm text-slate-300">Portfólio de</p>
-            <h1 className="text-xl font-semibold text-slate-50">{hero.name}</h1>
-          </div>
+  return (
+    <div className="min-h-screen bg-[var(--ink)] text-[var(--paper)] relative overflow-hidden">
+      <div className="absolute inset-0 bg-code-grid opacity-60 pointer-events-none" />
+
+      <header className="max-w-5xl mx-auto px-4 pt-8 pb-6 flex flex-wrap items-center justify-between gap-4 relative">
+        <div className="font-mono text-sm text-[var(--paper)]">
+          <span className="text-[var(--accent)]">nilson</span>
+          <span className="text-[var(--muted)]">@dev</span>
+          <span className="text-[var(--muted)]">:~$</span>
+          <span className="terminal-cursor" />
         </div>
-        <nav className="flex items-center gap-3 text-sm text-slate-300">
+        <nav className="flex items-center gap-1 font-mono text-xs">
+          {navTabs.map((tab) => (
+            <a
+              key={tab.label}
+              href={tab.href}
+              className="px-3 py-1.5 rounded border border-transparent text-[var(--muted)] hover:text-[var(--paper)] hover:border-[var(--border)] transition-colors"
+            >
+              {tab.label}
+            </a>
+          ))}
           {socials.map((item) => (
-            <a key={item.label} href={item.href} className="hover:text-primary transition-colors" target="_blank" rel="noreferrer">
+            <a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              className="px-3 py-1.5 rounded border border-transparent text-[var(--muted)] hover:text-[var(--accent)] hover:border-[var(--border)] transition-colors"
+            >
               {item.label}
             </a>
           ))}
         </nav>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 pb-16 space-y-16">
+      <main className="max-w-5xl mx-auto px-4 pb-16 space-y-20 relative">
         {/* Hero */}
-        <motion.section className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center" {...inView(0)}>
-          <motion.div {...fadeUp} className="space-y-6">
-            <p className="text-sm uppercase tracking-[0.2em] text-primary">Disponível para projetos</p>
-            <h2 className="text-4xl sm:text-5xl font-semibold leading-tight text-slate-50">
-              {hero.role}
-            </h2>
-            <p className="text-lg text-slate-300 max-w-2xl">{hero.blurb}</p>
-            <div className="flex flex-wrap gap-3">
+        <motion.section className="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 items-center pt-4" {...inView(0)}>
+          <motion.div {...fadeUp} className="space-y-5">
+            <SectionEyebrow>disponível para projetos</SectionEyebrow>
+            <h1 className="font-mono text-3xl sm:text-4xl font-semibold leading-tight text-[var(--paper)]">
+              {hero.name}
+            </h1>
+            <p className="font-mono text-lg sm:text-xl text-[var(--accent)] min-h-[1.75rem]">
+              {typed}
+              {typed.length < hero.role.length && <span className="terminal-cursor" />}
+            </p>
+            <p className="text-base text-[var(--muted)] max-w-xl leading-relaxed">
+              <span className="font-mono text-[var(--muted)]/70">/* </span>
+              {hero.blurb}
+              <span className="font-mono text-[var(--muted)]/70"> */</span>
+            </p>
+            <div className="flex flex-wrap gap-3 pt-1">
               <motion.a
                 href="#projetos"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white shadow-glass hover:-translate-y-0.5 transition"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[var(--accent)] text-[var(--ink)] font-mono text-sm font-semibold hover:brightness-110 transition"
               >
                 {hero.ctaPrimary}
-                <ArrowUpRight size={18} />
+                <ArrowUpRight size={16} />
               </motion.a>
               <motion.a
                 href="/curriculoNilson.pdf"
                 download="Curriculo-NilsonHoffmann.pdf"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-slate-700 text-slate-200 hover:border-primary hover:text-primary transition"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-[var(--border)] text-[var(--paper)] font-mono text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition"
               >
                 {hero.ctaSecondary}
-                <Download size={18} />
+                <Download size={16} />
               </motion.a>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 pt-1">
               {highlights.map((item, idx) => (
-                <motion.span 
-                  key={item} 
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.1 + idx * 0.05, duration: 0.4 }}
-                  className="px-3 py-1 rounded-full bg-white/5 border border-white/5 text-slate-200 text-sm"
+                <motion.span
+                  key={item}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 + idx * 0.06 }}
+                  className="font-mono text-xs px-2.5 py-1 rounded bg-[var(--surface)] border border-[var(--border)] text-[var(--muted)]"
                 >
                   {item}
                 </motion.span>
               ))}
             </div>
-            <div className="flex items-center gap-4 text-slate-300">
-              <div className="h-12 w-12 rounded-full border border-primary/60 bg-primary/10 overflow-hidden">
-                <img src={hero.avatar} alt="Sua foto" className="h-full w-full object-cover" />
-              </div>
-              <div>
-                <p className="text-sm text-slate-400">Vamos conversar</p>
-                <div className="flex gap-3">
-                  <a href={socials[0].href} className="hover:text-primary transition" target="_blank" rel="noreferrer">
-                    <Github size={18} />
-                  </a>
-                  <a href={socials[1].href} className="hover:text-primary transition" target="_blank" rel="noreferrer">
-                    <Linkedin size={18} />
-                  </a>
-                  <a href={socials[2].href} className="hover:text-primary transition">
-                    <Mail size={18} />
-                  </a>
-                </div>
-              </div>
-            </div>
           </motion.div>
 
-          <motion.div
-            {...fadeUp}
-            transition={{ delay: 0.15, duration: 0.6 }}
-            className="relative"
-          >
-            <div className="aspect-[4/5] rounded-3xl bg-white/5 border border-white/10 shadow-2xl overflow-hidden">
-              <img src={hero.avatar} alt="Sua foto" className="h-full w-full object-cover" />
-            </div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 0.4, duration: 0.6 } }}
-              className="absolute -bottom-6 left-8 right-8 rounded-2xl bg-slate-900/80 backdrop-blur border border-white/10 p-4 shadow-glass"
-            >
-              <p className="text-sm text-slate-200">Último trabalho</p>
-              <p className="text-base font-semibold text-slate-50">Plataforma de agendamento com IA</p>
-              <div className="mt-2 flex gap-2">
-                <span className="text-xs px-2 py-1 rounded-full bg-primary/20 text-primary">Full Stack</span>
-                <span className="text-xs px-2 py-1 rounded-full bg-accent/20 text-accent">Web</span>
+          <motion.div {...fadeUp} transition={{ delay: 0.15, duration: 0.5 }}>
+            <WindowFrame filename="nilson.jpg">
+              <div className="aspect-[4/5] overflow-hidden">
+                <img src={hero.avatar} alt="Foto de Nilson" className="h-full w-full object-cover" />
               </div>
-            </motion.div>
+            </WindowFrame>
+            <div className="mt-3 font-mono text-xs text-[var(--muted)] flex items-center justify-between px-1">
+              <span>último commit</span>
+              <span className="text-[var(--accent)]">Plataforma de agendamento com IA</span>
+            </div>
           </motion.div>
         </motion.section>
 
-        {/* Sobre mim */}
-        <motion.section className="space-y-6" {...inView(0.05)}>
-          <div>
-            <p className="text-sm uppercase tracking-[0.2em] text-primary">Trajetória</p>
-            <h3 className="text-3xl font-semibold text-slate-50">{about.title}</h3>
-          </div>
+        {/* Sobre */}
+        <motion.section id="sobre" className="space-y-6 scroll-mt-20" {...inView(0.05)}>
+          <SectionEyebrow>~/about.md</SectionEyebrow>
+          <h2 className="font-mono text-2xl font-semibold text-[var(--paper)]">{about.title}</h2>
           <div className="grid lg:grid-cols-[1fr_1fr] gap-10">
-            <motion.div {...fadeUp} className="space-y-4">
-              <p className="text-base text-slate-300 leading-relaxed">{about.description}</p>
-            </motion.div>
-            <motion.div {...fadeUp} transition={{ delay: 0.1, duration: 0.6 }} className="space-y-3">
-              {about.highlights.map((highlight, idx) => (
+            <p className="text-base text-[var(--muted)] leading-relaxed">{about.description}</p>
+            <div className="space-y-3">
+              {about.highlights.map((h, idx) => (
                 <motion.div
-                  key={highlight}
-                  initial={{ opacity: 0, x: -20 }}
+                  key={h}
+                  initial={{ opacity: 0, x: -12 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 * idx, duration: 0.4 }}
                   viewport={{ once: true, margin: '-80px' }}
-                  className="flex gap-3 items-start"
+                  className="flex gap-3 items-start font-mono text-sm"
                 >
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  <p className="text-sm text-slate-300">{highlight}</p>
+                  <span className="text-[var(--accent)]">›</span>
+                  <p className="text-[var(--muted)]">{h}</p>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </div>
         </motion.section>
 
         {/* Projetos */}
-        <motion.section id="projetos" className="space-y-6" {...inView(0.05)}>
-          <div className="flex items-baseline justify-between">
-            <div>
-              <p className="text-sm uppercase tracking-[0.2em] text-primary">Trabalhos</p>
-              <h3 className="text-3xl font-semibold text-slate-50">Projetos em destaque</h3>
-            </div>
-          </div>
+        <motion.section id="projetos" className="space-y-6 scroll-mt-20" {...inView(0.05)}>
+          <SectionEyebrow>~/projects</SectionEyebrow>
+          <h2 className="font-mono text-2xl font-semibold text-[var(--paper)]">Projetos em destaque</h2>
           <div className="grid md:grid-cols-3 gap-5">
             {projects.map((project, idx) => (
               <motion.a
@@ -207,159 +227,154 @@ export default function App() {
                 rel="noreferrer"
                 {...fadeUp}
                 transition={{ delay: 0.05 * idx }}
-                whileHover={{ y: -8 }}
-                className="group rounded-2xl border border-white/5 bg-white/5 hover:border-primary/60 transition shadow-glass overflow-hidden block cursor-pointer"
+                whileHover={{ y: -4 }}
+                className="block group"
               >
-                <div className="aspect-video overflow-hidden bg-slate-800/60">
-                  <img src={project.image} alt={project.title} className="h-full w-full object-cover group-hover:scale-105 transition" />
-                </div>
-                <div className="p-4 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-lg font-semibold text-slate-50">{project.title}</h4>
-                    <ArrowUpRight size={18} className="text-slate-400 group-hover:text-primary transition" />
+                <WindowFrame filename={`${project.title.toLowerCase().replace(/\s+/g, '-')}.jsx`} className="group-hover:border-[var(--accent)]/50 transition-colors">
+                  <div className="aspect-video overflow-hidden bg-black/20">
+                    <img src={project.image} alt={project.title} className="h-full w-full object-cover group-hover:scale-105 transition duration-300" />
                   </div>
-                  <p className="text-sm text-slate-300">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    {project.tech.map((tag) => (
-                      <span key={tag} className="text-xs px-2 py-1 rounded-full bg-slate-900/70 border border-white/10 text-slate-200">
-                        {tag}
-                      </span>
-                    ))}
+                  <div className="p-4 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-mono text-base font-semibold text-[var(--paper)]">{project.title}</h3>
+                      <ArrowUpRight size={16} className="text-[var(--muted)] group-hover:text-[var(--accent)] transition" />
+                    </div>
+                    <p className="text-sm text-[var(--muted)]">{project.description}</p>
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {project.tech.map((tag) => (
+                        <span key={tag} className="font-mono text-[11px] px-2 py-0.5 rounded bg-black/30 border border-[var(--border)] text-[var(--accent)]">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                </WindowFrame>
               </motion.a>
             ))}
           </div>
         </motion.section>
 
-        {/* Tecnologias Modernas */}
-        <motion.section className="space-y-6" {...inView(0.05)}>
-          <div className="text-center">
-            <p className="text-sm uppercase tracking-[0.2em] text-primary">Stack</p>
-            <h3 className="text-3xl font-semibold text-slate-50">Tecnologias Modernas</h3>
-            <p className="text-slate-400 mt-2">Utilizando as ferramentas mais avançadas do mercado e se aperfeiçoando.</p>
-          </div>
-          
-          <div className="relative py-8">
-            <div 
+        {/* Stack */}
+        <motion.section id="stack" className="space-y-6 scroll-mt-20" {...inView(0.05)}>
+          <SectionEyebrow>~/stack.json</SectionEyebrow>
+          <h2 className="font-mono text-2xl font-semibold text-[var(--paper)]">Tecnologias</h2>
+
+          <div className="relative">
+            <div
               ref={scrollRef}
               onMouseDown={handleMouseDown}
               onMouseLeave={handleMouseLeave}
               onMouseUp={handleMouseUp}
               onMouseMove={handleMouseMove}
-              className="overflow-x-scroll scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent hover:scrollbar-thumb-slate-600 pb-4 pt-4"
-              style={{ 
-                scrollBehavior: isDragging.current ? 'auto' : 'smooth',
-                WebkitOverflowScrolling: 'touch',
-                cursor: 'grab'
-              }}
+              className="overflow-x-scroll scrollbar-hide pb-2"
+              style={{ cursor: 'grab', WebkitOverflowScrolling: 'touch' }}
             >
-              <div 
-                className="flex gap-6 px-4"
-                style={{ width: 'max-content' }}
-              >
-                {[...technologies, ...technologies].map((tech, idx) => {
-                  const IconComponent = SiIcons[tech.icon];
+              <div className="flex gap-3" style={{ width: 'max-content' }}>
+                {technologies.map((tech, idx) => {
+                  const Icon = SiIcons[tech.icon];
                   return (
                     <motion.div
-                      key={`${tech.name}-${idx}`}
-                      initial={{ opacity: 0, y: 20 }}
+                      key={tech.name}
+                      initial={{ opacity: 0, y: 12 }}
                       whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.03 * (idx % technologies.length), duration: 0.4 }}
+                      transition={{ delay: 0.02 * idx, duration: 0.3 }}
                       viewport={{ once: true, margin: '-80px' }}
-                      whileHover={{ y: -8, scale: 1.05 }}
                       onMouseDown={(e) => e.stopPropagation()}
-                      className="flex-shrink-0 w-32 h-32 rounded-2xl border border-white/10 bg-white/5 backdrop-blur shadow-glass flex flex-col items-center justify-center gap-3 hover:border-primary/60 transition select-none"
-                      style={{ cursor: 'inherit' }}
+                      className="flex-shrink-0 w-24 h-24 rounded-md border border-[var(--border)] bg-[var(--surface)] flex flex-col items-center justify-center gap-2 hover:border-[var(--accent)]/50 transition select-none"
                     >
-                      {IconComponent && (
-                        <IconComponent 
-                          className="text-5xl transition-colors" 
-                          style={{ color: tech.color }}
-                        />
-                      )}
-                      <span className="text-sm font-medium text-slate-200">{tech.name}</span>
+                      {Icon && <Icon className="text-3xl" style={{ color: tech.color }} />}
+                      <span className="font-mono text-[10px] text-[var(--muted)]">{tech.name}</span>
                     </motion.div>
                   );
                 })}
               </div>
             </div>
-            
-            {/* Gradient overlays for scroll hint */}
-            <div className="absolute top-8 left-0 bottom-4 w-20 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
-            <div className="absolute top-8 right-0 bottom-4 w-20 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
+            <div className="absolute top-0 right-0 bottom-2 w-16 bg-gradient-to-l from-[var(--ink)] to-transparent pointer-events-none" />
           </div>
-          
-          <p className="text-center text-sm text-slate-400">← Arraste para ver mais →</p>
+          <p className="font-mono text-xs text-[var(--muted)]">← arraste para ver mais →</p>
         </motion.section>
 
-        {/* Timeline */}
+        {/* Timeline — git log */}
         <motion.section className="space-y-4" {...inView(0.05)}>
-          <h3 className="text-3xl font-semibold text-slate-50">Trajetória</h3>
-          <div className="space-y-3">
+          <SectionEyebrow>~/experience.log</SectionEyebrow>
+          <h2 className="font-mono text-2xl font-semibold text-[var(--paper)]">Trajetória</h2>
+          <div className="space-y-0">
             {timeline.map((item, idx) => (
               <motion.div
                 key={item.title}
                 {...fadeUp}
                 transition={{ delay: 0.05 * idx }}
-                className="rounded-xl border border-white/5 bg-white/5 px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between"
+                className="flex gap-4 py-4 border-b border-[var(--border)] last:border-0"
               >
-                <div>
-                  <p className="text-sm text-primary font-medium">{item.period}</p>
-                  <p className="text-lg font-semibold text-slate-50">{item.title}</p>
-                  <p className="text-sm text-slate-300">{item.description}</p>
+                <span className="font-mono text-xs text-[var(--muted)] pt-1 w-8 shrink-0">
+                  {String(timeline.length - idx).padStart(2, '0')}
+                </span>
+                <div className="flex-1">
+                  <p className="font-mono text-xs text-[var(--accent)]">{item.period}</p>
+                  <p className="font-mono text-base font-semibold text-[var(--paper)] mt-0.5">{item.title}</p>
+                  <p className="text-sm text-[var(--muted)] mt-0.5">{item.description}</p>
                 </div>
-                <ArrowUpRight size={18} className="text-slate-400" />
               </motion.div>
             ))}
           </div>
         </motion.section>
 
         {/* CTA */}
-        <motion.section className="rounded-3xl border border-primary/40 bg-primary/10 p-8 text-center space-y-4 shadow-glass" {...inView(0.05)}>
-          <p className="text-sm uppercase tracking-[0.2em] text-primary">Vamos criar algo</p>
-          <h3 className="text-3xl font-semibold text-slate-50">Pronto para colaborar?</h3>
-          <p className="text-slate-200 max-w-2xl mx-auto">
-            Se você busca alguém para desenvolver aplicações web modernas com foco em performance, vamos conversar!
-          </p>
-          <div className="flex flex-wrap gap-3 justify-center">
-            <motion.a
-              href="/curriculoNilson.pdf"
-              download="Curriculo-NilsonHoffmann.pdf"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-slate-50 text-slate-900 font-semibold hover:-translate-y-0.5 transition"
-            >
-              Baixar Currículo
-              <Download size={18} />
-            </motion.a>
-            <motion.a
-              href={socials[2].href}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/30 text-slate-100 hover:border-primary hover:text-primary transition"
-            >
-              Email
-              <Mail size={18} />
-            </motion.a>
-            <motion.a
-              href={socials[1].href}
-              target="_blank"
-              rel="noreferrer"
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/30 text-slate-100 hover:border-primary hover:text-primary transition"
-            >
-              LinkedIn
-              <Linkedin size={18} />
-            </motion.a>
-          </div>
+        <motion.section {...inView(0.05)}>
+          <WindowFrame filename="contact.sh" className="p-6 sm:p-8 text-center space-y-4">
+            <p className="font-mono text-sm text-[var(--muted)]">
+              <span className="text-[var(--accent)]">$</span> ./vamos-conversar.sh
+            </p>
+            <h2 className="font-mono text-2xl sm:text-3xl font-semibold text-[var(--paper)]">Pronto para colaborar?</h2>
+            <p className="text-[var(--muted)] max-w-xl mx-auto">
+              Se você busca alguém para desenvolver aplicações web modernas com foco em performance, vamos conversar.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center pt-1">
+              <motion.a
+                href="/curriculoNilson.pdf"
+                download="Curriculo-NilsonHoffmann.pdf"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-md bg-[var(--accent)] text-[var(--ink)] font-mono text-sm font-semibold hover:brightness-110 transition"
+              >
+                Baixar currículo
+                <Download size={16} />
+              </motion.a>
+              <motion.a
+                href={socials[2].href}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-md border border-[var(--border)] text-[var(--paper)] font-mono text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition"
+              >
+                <Mail size={16} /> Email
+              </motion.a>
+              <motion.a
+                href={socials[1].href}
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-md border border-[var(--border)] text-[var(--paper)] font-mono text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition"
+              >
+                <Linkedin size={16} /> LinkedIn
+              </motion.a>
+              <motion.a
+                href={socials[0].href}
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 px-5 py-2 rounded-md border border-[var(--border)] text-[var(--paper)] font-mono text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition"
+              >
+                <Github size={16} /> GitHub
+              </motion.a>
+            </div>
+          </WindowFrame>
         </motion.section>
       </main>
 
-      <footer className="max-w-6xl mx-auto px-4 py-8 text-sm text-slate-400 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
-        <span>© {new Date().getFullYear()} Nilson. Web • Full Stack • Performance.</span>
-        <span className="text-slate-500">Feito com React + Tailwind + Framer Motion</span>
+      <footer className="max-w-5xl mx-auto px-4 py-8 font-mono text-xs text-[var(--muted)] flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
+        <span>© {new Date().getFullYear()} Nilson Hoffmann Neto</span>
       </footer>
     </div>
   );

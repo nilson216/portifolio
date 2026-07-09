@@ -4,64 +4,86 @@
 
 :root {
   color-scheme: dark;
+  --ink: #0b0d10;
+  --surface: #12151a;
+  --border: rgba(255, 255, 255, 0.08);
+  --paper: #e8e6df;
+  --muted: #838a92;
+  --accent: #5fd9c4;
+  --accent-dim: rgba(95, 217, 196, 0.14);
+  --coral: #ff7a59;
 }
 
 body {
-  font-family: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #0b1120;
-  background-image: theme('backgroundImage.glow');
-  background-size: cover;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--ink);
   min-height: 100vh;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+}
+
+/* textura sutil de grid, no lugar do "glow" genérico */
+.bg-code-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+/* cursor de terminal piscando */
+@keyframes blink {
+  0%, 45% { opacity: 1; }
+  50%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.terminal-cursor {
+  display: inline-block;
+  width: 0.5em;
+  height: 1em;
+  background: var(--accent);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+}
+
+/* traffic lights estilo editor de código */
+.window-dots span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #334155 transparent;
+  scrollbar-color: #2a2f36 transparent;
 }
-
 *::-webkit-scrollbar {
   width: 10px;
-  height: 10px;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: #334155;
-  border-radius: 999px;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: #475569;
-}
-
-/* Scrollbar styles for carousel */
-.scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: #475569 transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar {
   height: 8px;
 }
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #475569;
+*::-webkit-scrollbar-thumb {
+  background: #2a2f36;
   border-radius: 999px;
 }
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: #64748b;
+*::-webkit-scrollbar-thumb:hover {
+  background: #3a4048;
 }
 
-/* Hide scrollbar for carousel */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

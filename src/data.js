@@ -11,7 +11,7 @@ export const hero = {
 export const about = {
   title: 'Sobre mim',
   description:
-    'Sou desenvolvedor web júnior apaixonado por criar interfaces limpas, intuitivas e bem otimizadas. Tenho experiência com as principais tecnologias do ecossistema JavaScript e foco em entregar projetos que combinam design cuidadoso com funcionalidade robusta.',
+    'Sou desenvolvedor web júnior apaixonado por criar interfaces limpas, intuitivas e bem otimizadas. Tenho experiência com as principais tecnologias do ecossistema JavaScript e Python, e foco em entregar projetos que combinam design cuidadoso com funcionalidade robusta.',
   highlights: [
     'Animações fluidas e microinterações que melhoram a experiência do usuário',
     'Versionamento com Git e colaboração em equipe',
@@ -44,6 +44,14 @@ export const projects = [
     image: '/projects/rosanna.jpg', // coloque a imagem em public/projects/rosanna.jpg
   },
   {
+    title: 'Restaurante Service',
+    description:
+      'App mobile de restaurantes em desenvolvimento',
+    tech: ['Mobile', 'Next.js',],
+    link: 'https://restaurant-service-eng2.vercel.app/',
+    image: '/projects/restaurant-service.png', // coloque a imagem em public/projects/barbearia-ia.jpg
+  },
+   {
     title: 'Barbearia com IA',
     description:
       'App mobile de agendamento para barbearias com integração de IA para otimizar experiência do cliente e gestão do barbeiro.',
@@ -57,7 +65,9 @@ export const technologies = [
   { name: 'JavaScript', icon: 'SiJavascript', color: '#F7DF1E' },
   { name: 'TypeScript', icon: 'SiTypescript', color: '#3178C6' },
   { name: 'React', icon: 'SiReact', color: '#61DAFB' },
-  { name: 'Redux', icon: 'SiRedux', color: '#764ABC' },
+  { name: 'Python', icon: 'SiPython', color: '#3776AB' },
+  { name: 'Flask', icon: 'SiFlask', color: '#ffffff' },
+  { name: 'FastAPI', icon: 'SiFastapi', color: '#009688' },
   { name: 'Node.js', icon: 'SiNodedotjs', color: '#339933' },
   { name: 'Git', icon: 'SiGit', color: '#F05032' },
   { name: 'MongoDB', icon: 'SiMongodb', color: '#47A248' },
@@ -67,7 +77,7 @@ export const technologies = [
   { name: 'Tailwind', icon: 'SiTailwindcss', color: '#06B6D4' },
   { name: 'GitHub', icon: 'SiGithub', color: '#181717' },
   { name: 'SQL Server', icon: 'SiMicrosoftsqlserver', color: '#CC2927' },
-  { name: 'PHP', icon: 'SiPhp', color: '#777BB4' },
+  { name: 'Jenkins', icon: 'SiJenkins', color: '#D24939' },
   { name: 'Jest', icon: 'SiJest', color: '#C21325' },
   { name: 'Swagger', icon: 'SiSwagger', color: '#85EA2D' },
 ];
@@ -76,7 +86,7 @@ export const timeline = [
   {
     period: 'jun 2025 — nov 2025',
     title: 'Desenvolvedor Web · Energy Simple',
-    description: 'Manutenção e evolução de sistemas PHP/MySQL, correção de bugs e novas funcionalidades.',
+    description: 'Manutenção e evolução de sistemas web, correção de bugs e novas funcionalidades.',
   },
   {
     period: 'out 2024 — mar 2025',
