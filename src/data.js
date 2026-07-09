@@ -5,7 +5,7 @@ export const hero = {
     'Desenvolvo aplicações web modernas, acessíveis e rápidas, com foco em clareza visual, dados bem apresentados e entregas consistentes.',
   ctaPrimary: 'Ver projetos',
   ctaSecondary: 'Baixar Currículo',
-  avatar: '/me.jpg', // coloque sua foto em public/me.jpg
+  avatar: '/me.jpeg', // coloque sua foto em public/me.jpeg
 };
 
 export const about = {
