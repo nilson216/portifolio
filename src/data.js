@@ -1,8 +1,8 @@
 export const hero = {
   name: 'Nilson Hoffmann Neto',
-  role: 'Desenvolvedor Web Júnior',
+  role: 'Desenvolvedor Full Stack Júnior',
   blurb:
-    'Desenvolvo aplicações web modernas, acessíveis e rápidas, com foco em clareza visual, dados bem apresentados e entregas consistentes.',
+    'Desenvolvo sistemas modernas,como automacoes e web, com foco em clareza visual, dados bem apresentados e entregas consistentes.',
   ctaPrimary: 'Ver projetos',
   ctaSecondary: 'Baixar Currículo',
   avatar: '/me.jpeg', // coloque sua foto em public/me.jpeg
@@ -11,7 +11,7 @@ export const hero = {
 export const about = {
   title: 'Sobre mim',
   description:
-    'Sou desenvolvedor web júnior apaixonado por criar interfaces limpas, intuitivas e bem otimizadas. Tenho experiência com as principais tecnologias do ecossistema JavaScript e Python, e foco em entregar projetos que combinam design cuidadoso com funcionalidade robusta.',
+    'Sou desenvolvedor full stack júnior apaixonado por criar interfaces limpas, intuitivas e bem otimizadas. Tenho experiência com as principais tecnologias do ecossistema JavaScript e Python, e foco em entregar projetos que combinam design cuidadoso com funcionalidade robusta.',
   highlights: [
     'Animações fluidas e microinterações que melhoram a experiência do usuário',
     'Versionamento com Git e colaboração em equipe',
@@ -27,6 +27,14 @@ export const highlights = [
 ];
 
 export const projects = [
+  {
+    title: 'Dr.Agenda',
+    description:
+    'Plataforma de agendamento de consultas médicas, permitindo marcação, gerenciamento de horários e organização prática entre pacientes e profissionais de saúde.',
+    tech: ['Next.js', 'Tailwind', 'Shadcn'],
+    link: 'https://doutor-agenda-jade.vercel.app/',
+    image: '/projects/dr-agenda.png', 
+  },
   {
     title: 'FinTrack',
     description:
@@ -83,6 +91,11 @@ export const technologies = [
 ];
 
 export const timeline = [
+  {
+    period: 'jan 2026 — presente',
+    title: 'Auxiliar de Desenvolvimento Full Stack · Trust Group',
+    description: 'Desenvolvimento e manutenção de robôs de automação e integrações com APIs REST, Oracle e Docker.',
+  },
   {
     period: 'jun 2025 — nov 2025',
     title: 'Desenvolvedor Web · Energy Simple',
